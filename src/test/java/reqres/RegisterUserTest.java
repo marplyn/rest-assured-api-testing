@@ -14,7 +14,8 @@ public class RegisterUserTest {
     @Test
     public void postRegisterUserSuccess() {
         RegisterUserPayload registerUserPayload = new RegisterUserPayload("eve.holt@reqres.in", "pistol");
-        reqresSteps.postRegisterUser(registerUserPayload, 200);
+        Response response = reqresSteps.postRegisterUser(registerUserPayload, 200);
+        reqresSteps.checkRegisterUser(response);
     }
 
     @Test

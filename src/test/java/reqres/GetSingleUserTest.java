@@ -1,6 +1,7 @@
 package reqres;
 
 import api.steps.ReqresSteps;
+import io.restassured.response.Response;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -10,7 +11,8 @@ public class GetSingleUserTest {
     @ParameterizedTest
     @ValueSource(ints = 2)
     public void getSingleUserSuccess(int id) {
-        reqresSteps.getSingleUser(id, 200);
+        Response response = reqresSteps.getSingleUser(id, 200);
+        reqresSteps.checkSingleUser(response, id);
     }
 
     @ParameterizedTest

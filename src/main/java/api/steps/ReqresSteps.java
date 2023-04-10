@@ -6,6 +6,9 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class ReqresSteps {
     public static Response postRegisterUser(RegisterUserPayload registerUserPayload, int httpStatus) {
@@ -55,5 +58,14 @@ public class ReqresSteps {
     public void checkUpdateUser(Response response, UpdateUserPayload updateUserPayload) {
         Assertions.assertEquals(updateUserPayload.getName(), response.jsonPath().get("name"));
         Assertions.assertEquals(updateUserPayload.getJob(), response.jsonPath().get("job"));
+    }
+
+    public void checkRegisterUser(Response response) {
+        response.then().assertThat().body("id", notNullValue());
+        response.then().assertThat().body("token", notNullValue());
+    }
+
+    public void checkSingleUser(Response response, int id) {
+        response.then().assertThat().body("data.id", equalTo(id));
     }
 }
