@@ -1,23 +1,28 @@
 package reqres;
 
 import api.steps.ReqresSteps;
-import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-public class GetSingleUserTest {
+class GetSingleUserTest {
+
     private final ReqresSteps reqresSteps = new ReqresSteps();
 
-    @ParameterizedTest
-    @ValueSource(ints = 2)
-    public void getSingleUserSuccess(int id) {
-        Response response = reqresSteps.getSingleUser(id, 200);
-        reqresSteps.checkSingleUser(response, id);
+    @DisplayName("Позитивный тест получения данных пользователя")
+    @Test()
+    void getSingleUserSuccess() {
+        int id = 2;
+        reqresSteps.getSingleUserById(id)
+                .responseStatusShouldBeEqualsTo(200);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = 23)
-    public void getSingleUserFail(int id) {
-        reqresSteps.getSingleUser(id, 404);
+    @DisplayName("Негативный тест получения данных пользователя")
+    @ParameterizedTest(name = "{displayName} [{index}] Параметры: id=[{0}]")
+    @ValueSource(ints = {23, -1, 0})
+    void getSingleUserFail(int id) {
+        reqresSteps.getSingleUserById(id)
+                .responseStatusShouldBeEqualsTo(404);
     }
 }

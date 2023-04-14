@@ -1,15 +1,18 @@
 package reqres;
 
 import api.steps.ReqresSteps;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-public class DeleteUserTest {
+class DeleteUserTest {
+
     private final ReqresSteps reqresSteps = new ReqresSteps();
 
-    @ParameterizedTest
-    @ValueSource(ints = 2)
-    public void deleteUserSuccess(int id) {
-        reqresSteps.deleteUser(id);
+    @DisplayName("Позитивный тест удаления пользователя")
+    @Test
+    void deleteUserSuccess() {
+        int id = 2;
+        reqresSteps.deleteUserById(id)
+                .responseStatusShouldBeEqualsTo(204);
     }
 }
